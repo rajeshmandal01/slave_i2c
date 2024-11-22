@@ -32,7 +32,7 @@ void init_leds() {
         gpio_set_direction(led_pins[i], GPIO_MODE_OUTPUT);
 
         // Set default states:
-        // Active High LEDs (6, 12, 18, 24) are off at level 0
+        // Active High LEDs (2,8,14 and 20) are off at level 0
         // Active Low LEDs (others) are off at level 1
         if (i == 1 || i == 7 || i == 13 || i == 19) {  // LEDs 6, 12, 18, 24
             gpio_set_level(led_pins[i], 0);  // Turn off active high LEDs
@@ -47,7 +47,7 @@ void turn_on_led(int led_index) {
 	if(led_index<=23) {
 	    for (int i = 0; i < 24; i++) {
 	        if (i == led_index) {
-	            // Active high LEDs (6, 12, 18, 24): ON when set to 1
+	               // Active High LEDs (2,8,14 and 20) are off at level 0): ON when set to 1
 	            // Active low LEDs (others): ON when set to 0
 	            if (i == 1 || i == 7 || i == 13 || i == 19) {
 	                gpio_set_level(led_pins[i], 1);  // Turn on active high LED
