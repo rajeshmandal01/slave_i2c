@@ -34,7 +34,7 @@ void init_leds() {
         // Set default states:
         // Active High LEDs (6, 12, 18, 24) are off at level 0
         // Active Low LEDs (others) are off at level 1
-        if (i == 5 || i == 11 || i == 17 || i == 23) {  // LEDs 6, 12, 18, 24
+        if (i == 1 || i == 7 || i == 13 || i == 19) {  // LEDs 6, 12, 18, 24
             gpio_set_level(led_pins[i], 0);  // Turn off active high LEDs
         } else {
             gpio_set_level(led_pins[i], 1);  // Turn off active low LEDs
@@ -44,26 +44,42 @@ void init_leds() {
 
 // Function to turn on the correct LED based on index
 void turn_on_led(int led_index) {
-    for (int i = 0; i < 24; i++) {
-        if (i == led_index) {
-            // Active high LEDs (6, 12, 18, 24): ON when set to 1
-            // Active low LEDs (others): ON when set to 0
-            if (i == 5 || i == 11 || i == 17 || i == 23) {
-                gpio_set_level(led_pins[i], 1);  // Turn on active high LED
-            } else {
-                gpio_set_level(led_pins[i], 0);  // Turn on active low LED
-            }
-        } else {
-            // Turn off LEDs:
-            // Active high LEDs are OFF when set to 0
-            // Active low LEDs are OFF when set to 1
-            if (i == 5 || i == 11 || i == 17 || i == 23) {
-                gpio_set_level(led_pins[i], 0);  // Turn off active high LED
-            } else {
-                gpio_set_level(led_pins[i], 1);  // Turn off active low LED
-            }
-        }
+	if(led_index<=23) {
+	    for (int i = 0; i < 24; i++) {
+	        if (i == led_index) {
+	            // Active high LEDs (6, 12, 18, 24): ON when set to 1
+	            // Active low LEDs (others): ON when set to 0
+	            if (i == 1 || i == 7 || i == 13 || i == 19) {
+	                gpio_set_level(led_pins[i], 1);  // Turn on active high LED
+	            } else {
+	                gpio_set_level(led_pins[i], 0);  // Turn on active low LED
+	            }
+	        } else {
+	            // Turn off LEDs:
+	            // Active high LEDs are OFF when set to 0
+	            // Active low LEDs are OFF when set to 1
+	            if (i == 1 || i == 7 || i == 13 || i == 19) {
+	                gpio_set_level(led_pins[i], 0);  // Turn off active high LED
+	            } else {
+	                gpio_set_level(led_pins[i], 1);  // Turn off active low LED
+	            }
+	        }
+	    }
     }
+    else {
+		
+		 for (int i = 0; i < 24; i++){
+	            // Turn off LEDs:
+	            // Active high LEDs are OFF when set to 0
+	            // Active low LEDs are OFF when set to 1
+	            if (i == 1 || i == 7 || i == 13 || i == 19) {
+	                gpio_set_level(led_pins[i], 0);  // Turn off active high LED
+	            } else {
+	                gpio_set_level(led_pins[i], 1);  // Turn off active low LED
+	            }
+	            }
+	            
+	        }
 }
 
 
@@ -83,7 +99,7 @@ void app_main() {
         int len = i2c_slave_read_buffer(I2C_SLAVE_NUM, &data, 1, pdMS_TO_TICKS(1000));
 
         // Check if data was received and is in the range 1 to 24
-        if (len > 0 && data >= 1 && data <= 24) {
+        if (len > 0 && data >= 1 && data <= 25) {
             turn_on_led(data - 1);   // Turn on the LED corresponding to the received value
             send_ack_to_master();    // Send acknowledgment to the master
         }
